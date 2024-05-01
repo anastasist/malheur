@@ -63,6 +63,7 @@ jobs:
       run: |
         mkdir -p ${{ github.workspace }}/output
         docker run --rm -v ${{ github.workspace }}/output:/output -u $(id -u):$(id -g) ${{ env.REGISTRY }}/${{  env.IMAGE_NAME  }}:latest
+        find . -depth -name "*:*" -exec sh -c 'f="{}"; echo $f | tr : ! | xargs mv $f -- ' \; # Replace invalid : with !
     - uses: actions/upload-artifact@v3
       with:
         name: fuzzer-output
