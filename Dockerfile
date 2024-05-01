@@ -11,8 +11,23 @@ WORKDIR /malheur
 
 RUN ./bootstrap && ./configure CC=afl-gcc && make && make install
 
-RUN mkdir /inputs && echo foo > /inputs/foo
+RUN mkdir /inputs
 
-# CMD ["afl-fuzz", "-i", "/inputs", "-o", "/output", "--", "/usr/local/malheur", "@@"]
+# Get official sample dataset and take one sample for input seed
+RUN mkdir /dataset
+
+WORKDIR /dataset
+
+RUN wget https://www.sec.cs.tu-bs.de/data/malheur/reference/reference_mist.tar.gz --no-check-certificate
+
+RUN tar -zxvf /dataset/reference_mist.tar.gz && mkdir /dataset/trimmed
+
+RUN cp /dataset/refset/005* /dataset/trimmed && tar -zcvf /inputs/trimmed_dataset.tar.gz /dataset/trimmed
+
+RUN rm -rf /dataset
+
+WORKDIR /malheur
+
+CMD ["afl-fuzz", "-i", "/inputs", "-o", "/output", "-V", "300", "--", "/usr/local/bin/malheur", "-o", "/tmp/malheur.out", "distance", "@@"]
 
 LABEL org.opencontainers.image.source=https://github.com/anastasist/malheur
