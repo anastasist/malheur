@@ -60,7 +60,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
 
     - name: Run fuzzer and upload fuzzer output as artifact
-      run: docker run ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{  env.IMAGE_NAME  }}:latest
+      run: docker run --rm ${{ env.REGISTRY }}/${{  env.IMAGE_NAME  }}:latest
     - uses: actions/upload-artifact@v3
       with:
         name: fuzzer-output
