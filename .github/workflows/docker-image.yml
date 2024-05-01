@@ -46,7 +46,7 @@ jobs:
           ${{ github.sha }}
         #   type=sha,format=long
         #   type=raw,value=latest
-        flavor: latest=auto
+        flavor: latest=true
 
     # - name: Build the fuzzer image
 
