@@ -35,16 +35,16 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    #- name: Extract metadata (tags, labels) for Docker
-    #    id: meta
-    #    uses: docker/metadata-action@v3
-    #    with:
-    #      images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    - name: Extract metadata (tags, labels) for Docker
+       id: meta
+       uses: docker/metadata-action@v3
+       with:
+         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
     # - name: Build the fuzzer image
 
     - name: Build and push Docker image
-        id: push
+        # id: push
         uses: docker/build-push-action@v3
         with:
           context: .
