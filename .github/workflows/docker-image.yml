@@ -62,7 +62,7 @@ jobs:
     - name: Run fuzzer and upload fuzzer output as artifact
       run: |
         mkdir -p ${{ github.workspace }}/output
-        docker run --rm -v ${{ github.workspace }}/output:/output ${{ env.REGISTRY }}/${{  env.IMAGE_NAME  }}:latest
+        docker run --rm -v ${{ github.workspace }}/output:/output -u $(id -u):$(id -g) ${{ env.REGISTRY }}/${{  env.IMAGE_NAME  }}:latest
     - uses: actions/upload-artifact@v3
       with:
         name: fuzzer-output
