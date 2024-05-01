@@ -3,8 +3,10 @@ name: Fuzzer Image CI
 on:
   push:
     branches: [ "master" ]
+    tags: type=sha,format=long
   pull_request:
     branches: [ "master" ]
+    tags: type=sha,format=long
   workflow_dispatch:
 
 
@@ -49,9 +51,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: |
-          ${{ steps.meta.outputs.tags }}
-          type=sha,format=long
+        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
       # - run: docker build --file Dockerfile --tag malheur .
