@@ -52,7 +52,7 @@ jobs:
 
     - name: Build and push Docker image
       id: push
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         context: .
         push: true
@@ -60,9 +60,11 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
 
     - name: Run fuzzer and upload fuzzer output as artifact
-      run: docker run --rm -v output:/output ${{ env.REGISTRY }}/${{  env.IMAGE_NAME  }}:latest
+      run: |
+        mkdir -p ${{ github.workspace }}/output
+        docker run --rm -v output:/output ${{ env.REGISTRY }}/${{  env.IMAGE_NAME  }}:latest
     - uses: actions/upload-artifact@v3
       with:
         name: fuzzer-output
-        path: output
+        path: ${{ github.workspace }}/output
         compression-level: 6 #default
