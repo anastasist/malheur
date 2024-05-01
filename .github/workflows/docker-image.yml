@@ -56,8 +56,8 @@ jobs:
         context: .
         push: true
         tags: |
-          ${{ steps.meta.outputs.tags }}
           ${{ github.sha }}
+          ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
       # - run: docker build --file Dockerfile --tag malheur .
