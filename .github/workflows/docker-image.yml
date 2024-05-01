@@ -59,11 +59,10 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-      # - run: docker build --file Dockerfile --tag malheur .
-
-    # - name: Push image
-    # - run: docker tag
-    #     IMAGE_ID=${{ env.REGISTRY }}/${{ github.repository_owner }}/${{  env.IMAGE_NAME  }}
-
-    #     docker tag ${{ env.IMAGE_NAME }} $IMAGE_ID:latest
-    #     docker push $IMAGE_ID:latest
+    - name: Run fuzzer and upload fuzzer output as artifact
+      run: docker run ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{  env.IMAGE_NAME  }}:latest
+    - uses: actions/upload-artifact@v3
+      with:
+        name: fuzzer-output
+        path: /output
+        compression-level: 6 #default
