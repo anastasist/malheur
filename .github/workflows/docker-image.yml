@@ -3,10 +3,10 @@ name: Fuzzer Image CI
 on:
   push:
     branches: [ "master" ]
-    tags: type=sha,format=long
+    # tags: type=sha,format=long
   pull_request:
     branches: [ "master" ]
-    tags: type=sha,format=long
+    # tags: type=sha,format=long
   workflow_dispatch:
 
 
@@ -42,6 +42,8 @@ jobs:
       uses: docker/metadata-action@v3
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: type=sha,format=long
+        flavor: latest=auto
 
     # - name: Build the fuzzer image
 
